@@ -11,3 +11,6 @@
 *.lai
 *.la
 *.a
+
+# Directory of Qt data
+./build-huffman-Desktop_Qt_5_1_1_GCC_64bit-Debug
