@@ -7,12 +7,12 @@
 class Tree {
 public:
     Tree();
-    Tree(Node * m_root);
+    Tree(Node * root);
     ~Tree();
     void showTree();
     QString createRep ();
     void createTree (QString rep);
-    Node * m_root();
+    Node * root();
     void setRoot (Node * newRoot);
 private:
     void preOrder(Node * node);

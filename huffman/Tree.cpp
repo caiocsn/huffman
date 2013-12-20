@@ -2,46 +2,49 @@
 # include <QString>
 
 Tree::Tree() {
-    this->m_root = 0;
+    m_root = 0;
 }
 
 Tree::Tree(Node * root) {
-    this->m_root = root;
+    m_root = root;
 }
 
 Tree::~Tree () {
-    delete this->m_root;
+    delete m_root;
 }
 
 void Tree::showTree() {
-    this->preOrder(m_root);
+    preOrder(m_root);
 }
 
-QString Tree::createRep ();
+QString Tree::createRep () {
 
-void Tree::createTree (QString rep);
+}
 
-Node * Tree::m_root() {
-    return this->m_root;
+void Tree::createTree (QString rep) {
+
+}
+
+Node * Tree::root() {
+    return m_root;
 }
 
 void Tree::setRoot (Node * newRoot) {
-    this->m_root = newRoot;
+    m_root = newRoot;
 }
 
 void Tree::preOrder(Node *node) {
     if (node) {
         // qDebug() << node->getKey();
-        preOrder(node->getLeft());
+        preOrder(node->left());
         this->visit(node);
-        preOrder(node->getRight());
+        preOrder(node->right());
     }
 }
 
 void Tree::visit(Node *node) {
-    QString str = QString::number(node->getKey());
-    for(int i = 0; i < node->getHeight(); ++i) {
+    QString str = QString::number(node->key());
+    for(int i = 0; i < node->height(); ++i) {
         str.prepend("\t");
     }
-    qDebug() << str;
 }

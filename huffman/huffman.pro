@@ -17,8 +17,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     Node.cpp \
-    Tree.cpp
+    Tree.cpp \
+    File.cpp
 
 HEADERS += \
     Node.h \
-    Tree.h
+    Tree.h \
+    File.h
