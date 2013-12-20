@@ -1,8 +1,8 @@
-#include <QCoreApplication>
+#include <File.h>
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
-    return a.exec();
+    File * f = new File("/home/larissartemis/workspace/FileTest/", "teste.txt");
+    f->split();
+    return 0;
 }
