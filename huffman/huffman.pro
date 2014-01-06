@@ -18,9 +18,14 @@ TEMPLATE = app
 SOURCES += main.cpp \
     Node.cpp \
     Tree.cpp \
-    File.cpp
+    Occurrence.cpp \
+    CountOccurence.cpp \
+    NodeOccurrence.cpp
 
 HEADERS += \
     Node.h \
     Tree.h \
-    File.h
+    File.h \
+    CountOccurrence.h \
+    Occurrence.h \
+    NodeOccurrence.h

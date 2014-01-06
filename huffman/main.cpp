@@ -1,18 +1,19 @@
-#include <File.h>
+
 #include <QDebug>
 #include <QByteArray>
+#include <QFile>
+#include <CountOccurrence.h>
 
 int main(int argc, char *argv[])
 {
-    File * f = new File("/home/larissartemis/workspace/FileTest/", "teste.txt");
-    // f->split();
 
-    QByteArray q = f->read();
-    QString s;
-    s.append(q);
-
-    f->write(q);
-
+    QFile *f = new QFile("/home/marilia/Downloads/teste.jpg");
+    QByteArray q = f->readAll();
+    CountOccurrence * counter = new CountOccurrence(q);
+    counter->count();
+    counter->print();
+    QList<Occurrence> occurrencesOrdered = counter->orderByOccurrence();
+    //qDebug() << s;
     qDebug() << "done";
     return 0;
 }
