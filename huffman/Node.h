@@ -3,6 +3,7 @@
 
 class Node {
 public:
+    Node ();
     Node (char key);
     Node (char key, int m_height);
     ~Node ();

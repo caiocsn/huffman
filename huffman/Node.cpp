@@ -1,5 +1,11 @@
 # include <Node.h>
 
+Node::Node() {
+    this->m_left = 0;
+    this->m_right = 0;
+    this->m_height = 0;
+    this->m_key = 0;
+}
 
 Node::Node(char key) {
     this->m_left = 0;
@@ -24,6 +30,9 @@ Node::~Node() {
 
 void Node::setLeft(Node *left) {
     this->m_left = left;
+    int h = m_height;
+    h++;
+    m_left->setHeight(h);
 }
 
 Node * Node::left() {
@@ -32,6 +41,9 @@ Node * Node::left() {
 
 void Node::setRight(Node *right) {
     this->m_right = right;
+    int h = m_height;
+    h++;
+    m_right->setHeight(h);
 }
 
 Node * Node::right() {
