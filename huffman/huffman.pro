@@ -20,7 +20,6 @@ SOURCES += main.cpp \
     Tree.cpp \
     Occurrence.cpp \
     CountOccurence.cpp \
-    NodeOccurrence.cpp \
     File.cpp
 
 HEADERS += \
@@ -29,5 +28,4 @@ HEADERS += \
     File.h \
     CountOccurrence.h \
     Occurrence.h \
-    NodeOccurrence.h \
     File.h

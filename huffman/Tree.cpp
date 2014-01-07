@@ -11,7 +11,8 @@ Tree::Tree(Node * root) {
 }
 
 Tree::Tree (QString rep) {
-
+    m_rep = rep;
+    // ... ?
 }
 
 Tree::~Tree () {
@@ -24,7 +25,6 @@ void Tree::showTree() {
 
 QString Tree::createRep () {
     preOrderRep(m_root);
-    rep();
 }
 
 Node * Tree::root() {

@@ -19,7 +19,6 @@ int main() {
 //    QList<Occurrence> occurrencesOrdered = counter->orderByOccurrence();
 //    qDebug() << "done";
 
-
     Node * root = new Node();
     Node * l = new Node('L');
     Node * a = new Node('A');
@@ -41,6 +40,15 @@ int main() {
     v3->setLeft(i);
 
     t->createRep();
+
+    File * f = new File("/home/larissartemis/workspace/huffman/huffman/", "teste.txt");
+    QByteArray q = f->read();
+
+    QByteArray byteArray;
+    byteArray.append(t->rep());
+
+    f->write(byteArray, t->rep(), 5);
+    qDebug() << "done";
 
     return 0;
 }
