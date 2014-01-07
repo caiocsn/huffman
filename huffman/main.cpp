@@ -6,8 +6,7 @@
 #include <QFile>
 #include <CountOccurrence.h>
 
-int main(int argc, char *argv[])
-{
+int main() {
 
 //     QFile *f = new QFile("/home/marilia/Downloads/teste.jpg");
 //     QByteArray q = f->readAll();
@@ -20,18 +19,27 @@ int main(int argc, char *argv[])
 //    QList<Occurrence> occurrencesOrdered = counter->orderByOccurrence();
 //    qDebug() << "done";
 
+
     Node * root = new Node();
-    Tree * t = new Tree(root);
-    Node * b = new Node('B');
-    Node * n4 = new Node();
-    root->setRight(b);
-    root->setLeft(n4);
+    Node * l = new Node('L');
     Node * a = new Node('A');
-    Node * c = new Node('C');
-    n4->setLeft(a);
-    n4->setRight(c);
-    qDebug() << "show";
-    t->showTree();
+    Node * r = new Node('R');
+    Node * i = new Node('I');
+    Node * s = new Node('S');
+    Node * v1 = new Node();
+    Node * v2 = new Node();
+    Node * v3 = new Node();
+
+    Tree * t = new Tree(root);
+    root->setRight(v1);
+    v1->setRight(s);
+    v1->setLeft(a);
+    root->setLeft(v2);
+    v2->setRight(v3);
+    v2->setLeft(l);
+    v3->setRight(r);
+    v3->setLeft(i);
+
     t->createRep();
 
     return 0;

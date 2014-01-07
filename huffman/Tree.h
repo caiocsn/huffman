@@ -14,12 +14,13 @@ public:
     QString createRep ();
     Node * root();
     void setRoot (Node * newRoot);
+    QString rep ();
 private:
     void preOrder(Node * node);
     void visit(Node * node);
     void preOrderRep(Node * node);
     void visitRep(Node * node);
-public:
+private:
     Node * m_root;
     QString m_rep;
 };

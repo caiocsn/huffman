@@ -67,5 +67,10 @@ char Node::key() {
 }
 
 bool Node::isLeaf() {
-    return this->left() && this->right();
+    if (this->left() || this->right()) {
+        return false;
+    } else {
+        return true;
+    }
+
 }
