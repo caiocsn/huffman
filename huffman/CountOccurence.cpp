@@ -33,21 +33,17 @@ void CountOccurrence :: count () {
 QList<Occurrence> CountOccurrence :: orderByOccurrence () {
     qDebug() << "\n";
     QList<Occurrence> ordered  = QList<Occurrence>();
-    Occurrence lower = Occurrence();
 
-    for (int i = 0; i < m_occurrence.size(); i++) {
-        lower = m_occurrence.at(i);
-
-        qDebug() << lower.character() << " lower " << lower.count();
-
-        for (int j = 0; j < m_occurrence.size(); j++) {
-            if(lower.count() > m_occurrence[j].count()){
-                lower = m_occurrence.at(j);
-                qDebug() << lower.character() << " for " << lower.count();
-            }
+    for (int i = 0; i < m_occurrence.size(); ++i) {
+        for (int j = i; j > 0 && m_occurrence[j].count() < m_occurrence[j-1].count(); --j) {
+            Occurrence aux = m_occurrence[j];
+            m_occurrence[j] = m_occurrence[j-1];
+            m_occurrence[j-1] = aux;
         }
-        ordered.append(lower);
-        qDebug() << lower.character() << " : " << lower.count();
+    }
+    for (int i = 0; i < m_occurrence.size(); ++i) {
+        qDebug() << m_occurrence[i].character() << " appear " << m_occurrence[i].count();
+        ordered.append(m_occurrence[i]);
     }
 
     return ordered;
