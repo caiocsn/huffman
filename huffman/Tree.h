@@ -17,9 +17,7 @@ public:
     QString rep ();
 private:
     void preOrder(Node * node);
-    void visit(Node * node);
     void preOrderRep(Node * node);
-    void visitRep(Node * node);
 private:
     Node * m_root;
     QString m_rep;

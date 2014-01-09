@@ -4,23 +4,25 @@
 class Node {
 public:
     Node ();
-    Node (char key);
-    Node (char key, int m_height);
+    Node (char key, int frequency);
     ~Node ();
-    void setLeft (Node * m_left);
+    void setLeft (Node * left);
     Node * left();
-    void setRight (Node * m_right);
+    void setRight (Node * right);
     Node * right();
-    void setHeight(int m_height);
-    int height();
-    void setKey(char m_key);
+    void setFrequency(int frequency);
+    int frequency();
+    void setKey(char key);
     char key();
     bool isLeaf();
+    void setNext(Node * node);
+    Node * next();
 private:
     Node * m_left;
     Node * m_right;
+    Node * m_next;
     char m_key;
-    int m_height;
+    int m_frequency;
 };
 
 #endif // NODE_H

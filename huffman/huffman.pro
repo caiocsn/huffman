@@ -20,7 +20,9 @@ SOURCES += main.cpp \
     Tree.cpp \
     Occurrence.cpp \
     CountOccurence.cpp \
-    File.cpp
+    File.cpp \
+    CreateHuffmanTree.cpp \
+    Queue.cpp
 
 HEADERS += \
     Node.h \
@@ -28,4 +30,6 @@ HEADERS += \
     File.h \
     CountOccurrence.h \
     Occurrence.h \
-    File.h
+    File.h \
+    CreateHuffmanTree.h \
+    Queue.h

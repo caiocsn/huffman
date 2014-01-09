@@ -36,29 +36,16 @@ void Tree::setRoot (Node * newRoot) {
 }
 
 QString Tree::rep () {
-    qDebug() << "Tree: " << m_rep;
+    // qDebug() << "Tree: " << m_rep;
     return m_rep;
 }
 
 void Tree::preOrder(Node *node) {
     if (node) {
         preOrder(node->left());
-        this->visit(node);
+        qDebug() << node->key() << node->frequency();
         preOrder(node->right());
     }
-}
-
-void Tree::visit(Node *node) {
-    QString str = "";
-    if (node->key() != 0) {
-        str.append(node->key());
-    } else {
-        str.append("[]");
-    }
-    for(int i = 0; i < node->height(); ++i) {
-        str.prepend("\t");
-    }
-    qDebug() << str;
 }
 
 void Tree::preOrderRep(Node *node) {
@@ -67,14 +54,10 @@ void Tree::preOrderRep(Node *node) {
         preOrderRep(node->left());
         if (node->left() && !node->left()->isLeaf()) m_rep.append(")");
 
-        this->visitRep(node);
+        if (node->key() != 0) m_rep.append(node->key());
 
         if (node->right() && !node->right()->isLeaf()) m_rep.append("(");
         preOrderRep(node->right());
         if (node->right() && !node->right()->isLeaf()) m_rep.append(")");
     }
-}
-
-void Tree::visitRep(Node *node) {
-    if (node->key() != 0) m_rep.append(node->key());
 }

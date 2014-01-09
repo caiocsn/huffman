@@ -3,36 +3,26 @@
 Node::Node() {
     this->m_left = 0;
     this->m_right = 0;
-    this->m_height = 0;
+    this->m_frequency = 0;
     this->m_key = 0;
 }
 
-Node::Node(char key) {
+Node::Node(char key, int frequency) {
     this->m_left = 0;
     this->m_right = 0;
-    this->m_height = 0;
-    this->m_key = key;
-}
-
-Node::Node(char key, int height) {
-    this->m_left = 0;
-    this->m_right = 0;
-    this->m_height = height;
+    this->m_frequency = frequency;
     this->m_key = key;
 }
 
 Node::~Node() {
     this->m_left = 0;
     this->m_right = 0;
-    this->m_height = 0;
+    this->m_frequency = 0;
     this->m_key = 0;
 }
 
 void Node::setLeft(Node *left) {
     this->m_left = left;
-    int h = m_height;
-    h++;
-    m_left->setHeight(h);
 }
 
 Node * Node::left() {
@@ -41,21 +31,18 @@ Node * Node::left() {
 
 void Node::setRight(Node *right) {
     this->m_right = right;
-    int h = m_height;
-    h++;
-    m_right->setHeight(h);
 }
 
 Node * Node::right() {
     return this->m_right;
 }
 
-void Node::setHeight(int height) {
-    this->m_height = height;
+void Node::setFrequency(int height) {
+    this->m_frequency = height;
 }
 
-int Node::height() {
-    return this->m_height;
+int Node::frequency() {
+    return this->m_frequency;
 }
 
 void Node::setKey(char key) {
@@ -73,4 +60,14 @@ bool Node::isLeaf() {
         return true;
     }
 
+}
+
+void Node::setNext(Node *node)
+{
+    m_next = node;
+}
+
+Node *Node::next()
+{
+    return m_next;
 }

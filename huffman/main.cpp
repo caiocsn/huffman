@@ -1,3 +1,27 @@
+/*
+public static Node makeHuffmanTree(int frequencies[], String text[]) {
+        PriorityQueue<Node> queue = new PriorityQueue<Node>();
+        for (int i = 0; i < text.length; i++) {
+            Node n = new Node(text[i], frequencies[i]);
+            queue.add(n);
+        }
+        Node root = null;
+        while (queue.size() > 1)  {
+            Node least1 = queue.poll();
+            Node least2 = queue.poll();
+            Node combined = new Node(least1.frequency + least2.frequency);
+            combined.right = least1;
+            combined.left = least2;
+            least1.parent = combined;
+            least2.parent = combined;
+            queue.add(combined);
+            // Keep track until we actually find the root
+            root = combined;
+        }
+        return root;
+    }
+*/
+
 #include <Tree.h>
 #include <File.h>
 #include <QDebug>
@@ -7,24 +31,12 @@
 #include <CountOccurrence.h>
 
 int main() {
-
-//     QFile *f = new QFile("/home/marilia/Downloads/teste.jpg");
-//     QByteArray q = f->readAll();
-
-//    File * f = new File("/home/larissartemis/workspace/huffman/huffman/", "teste.txt");
-//    QByteArray q = f->read();
-//    CountOccurrence * counter = new CountOccurrence(q);
-//    counter->count();
-//    counter->print();
-//    QList<Occurrence> occurrencesOrdered = counter->orderByOccurrence();
-//    qDebug() << "done";
-
     Node * root = new Node();
-    Node * l = new Node('L');
-    Node * a = new Node('A');
-    Node * r = new Node('R');
-    Node * i = new Node('I');
-    Node * s = new Node('S');
+    Node * l = new Node('L', 1);
+    Node * a = new Node('A', 2);
+    Node * r = new Node('R', 1);
+    Node * i = new Node('I', 1);
+    Node * s = new Node('S', 2);
     Node * v1 = new Node();
     Node * v2 = new Node();
     Node * v3 = new Node();
@@ -43,11 +55,7 @@ int main() {
 
     File * f = new File("/home/larissartemis/workspace/huffman/huffman/", "teste.txt");
     QByteArray q = f->read();
-
-    QByteArray byteArray;
-    byteArray.append(t->rep());
-
-    f->write(byteArray, t->rep(), 5);
+    f->write(q, t->rep(), 5);
     qDebug() << "done";
 
     return 0;

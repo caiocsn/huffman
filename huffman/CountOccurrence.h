@@ -16,11 +16,9 @@ public:
     QByteArray file ();
     QList<Occurrence> occurrence ();
     void print ();
-
 private:
     QByteArray m_file;
     QList<Occurrence> m_occurrence;
-
 };
 
 #endif // COUNTOCCURRENCE_H

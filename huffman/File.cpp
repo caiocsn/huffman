@@ -40,9 +40,7 @@ void File:: split()
 
             QFile smallFile (partialpath);
             smallFile.open(QIODevice::ReadWrite | QIODevice::Text);
-            //
             smallFile.write(&buffer[0], achunk);
-            //
             smallFile.close();
 
             qDebug() << partialpath;
@@ -86,12 +84,21 @@ void File::write(QByteArray byteArray, QString repTree, int garbageSize) {
     }
     qDebug() << toByte;
 
-    for(int b=0; b<toByte.count(); ++b)
-            header[b/8] = ( header.at(b/8) | ((toByte[b]?1:0)<<(b%8)));
-    qDebug() << header;
+    for (int i = 0; i < toByte.count(); ++i) {
+            header[i/8] = (header.at(i/8) | ((toByte[i]?1:0)<<(i%8)));
+    }
+
+    QByteArray filename128b;
+    filename128b.append(m_filename);
+
+    header.append(filename128b);
+    header.append(repTree);
+
+    qDebug() << "header" << header;
 
     QFile file(m_path + "compactado.huff");
     file.open(QIODevice::ReadWrite | QIODevice::Text);
+    file.write(header);
     file.write(byteArray);
     file.close();
 }
