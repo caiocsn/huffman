@@ -1,7 +1,7 @@
 # include <QDebug>
 # include <Tree.h>
 # include <QString>
-# include <QStack>
+//# include <QStack>
 
 Tree::Tree() {
     m_root = 0;
@@ -18,7 +18,7 @@ void Tree::verifyChar(QString characters, Node * granRoot, Node * root) {
         //stack.append('(');
         Node * node = new Node();
 
-        if (root->left() != NULL) {
+        if (root->left() == 0) {
             root->setLeft(node);
             characters.remove(0,1);
 
@@ -51,7 +51,7 @@ void Tree::verifyChar(QString characters, Node * granRoot, Node * root) {
         } else {
             Node * node = new Node(character);
 
-            if (root->left() != NULL) {
+            if (root->left() == 0) {
                 root->setLeft(node);
                 characters.remove(0,1);
 
