@@ -1,10 +1,12 @@
 #ifndef NODE_H
 #define NODE_H
+# include <QChar>
 
 class Node {
 public:
     Node ();
     Node (char key);
+    Node (QChar key);
     Node (char key, int m_height);
     ~Node ();
     void setLeft (Node * m_left);

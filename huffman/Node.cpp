@@ -14,6 +14,13 @@ Node::Node(char key) {
     this->m_key = key;
 }
 
+Node::Node(QChar key) {
+    this->m_left = 0;
+    this->m_right = 0;
+    this->m_height = 0;
+    this->m_key = key.toLatin1();
+}
+
 Node::Node(char key, int height) {
     this->m_left = 0;
     this->m_right = 0;

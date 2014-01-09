@@ -19,6 +19,11 @@ int main() {
 //    QList<Occurrence> occurrencesOrdered = counter->orderByOccurrence();
 //    qDebug() << "done";
 
+    Tree * teste = new Tree("(ac)b");
+    teste->showTree();
+
+    /*
+
     Node * root = new Node();
     Node * l = new Node('L');
     Node * a = new Node('A');
@@ -48,7 +53,9 @@ int main() {
     byteArray.append(t->rep());
 
     f->write(byteArray, t->rep(), 5);
+    */
     qDebug() << "done";
+
 
     return 0;
 }
