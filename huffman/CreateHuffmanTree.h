@@ -11,6 +11,7 @@
 class CreateHuffmanTree
 {
 public:
+    CreateHuffmanTree();
     CreateHuffmanTree(QList<Occurrence> oc);
     ~CreateHuffmanTree();
     Queue * occurrence();
@@ -18,13 +19,18 @@ public:
     Tree * tree();
     void setTree(Tree * t);
     Tree * createTree();
-    void setHash(QHash hash);
-    QHash hash();
+    void setHash(QHash<Node *, QString> * hash);
+    QHash<Node *, QString> * hash();
+    void createHash(Tree * t);
+    void showHash();
+
+private:
+    void addNodeToHash(Node * node, QString path);
 
 private:
     Queue * m_occurrences;
     Tree * m_tree;
-    QHash m_hash;
+    QHash<Node *, QString> * m_hash;
 };
 
 #endif // CREATEHUFFMANTREE_H

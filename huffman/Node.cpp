@@ -9,6 +9,7 @@ Node::Node() {
     m_key = 0;
     m_next = 0;
     m_height = 0;
+    m_path = "";
 }
 
 
@@ -20,6 +21,7 @@ Node::Node(char key, int frequency) {
     m_key = key;
     m_next = 0;
     m_height = 0;
+    m_path = "";
 
 }
 
@@ -29,6 +31,7 @@ Node::Node(char key) {
     this->m_root = 0;
     this->m_height = 0;
     this->m_key = key;
+    m_path = "";
 }
 
 Node::Node(QChar key) {
@@ -37,6 +40,7 @@ Node::Node(QChar key) {
     this->m_root = 0;
     this->m_height = 0;
     this->m_key = key.toLatin1();
+    m_path = "";
 }
 
 
@@ -49,6 +53,7 @@ Node::~Node() {
     m_key = 0;
     m_next = 0;
     m_height = 0;
+    m_path = "";
 }
 
 /*void Node::setLeft(Node *left) {
@@ -135,4 +140,14 @@ void Node::setHeight(int height) {
 
 int Node::height() {
     return m_height;
+}
+
+//asdfghgfdsadfggfdsasdfgh
+
+void Node::setPath(QString path) {
+    m_path = path;
+}
+
+QString Node::path() {
+    return m_path;
 }

@@ -16,9 +16,12 @@ void Tree::verifyChar(QString characters, Node * root) {
     if (character == '(') {
         Node * node = new Node();
         node->setRoot(root);
+        QString nodePath = root->path();
 
         if (root->left() == 0) {
+            nodePath.append("0");
             root->setLeft(node);
+            node->setPath(nodePath);
             characters.remove(0,1);
 
             if(!characters.isEmpty()) {
@@ -26,7 +29,9 @@ void Tree::verifyChar(QString characters, Node * root) {
             }
 
         } else {
+            nodePath.append("1");
             root->setRight(node);
+            node->setPath(nodePath);
             characters.remove(0,1);
 
             if(!characters.isEmpty()) {
@@ -47,6 +52,7 @@ void Tree::verifyChar(QString characters, Node * root) {
 
             Node * node = new Node(character);
             node->setRoot(root);
+            QString nodePath = root->path();
 
             if (character == '00x0') {
                 node->setKey(characters.at(1).toLatin1());
@@ -54,7 +60,9 @@ void Tree::verifyChar(QString characters, Node * root) {
             }
 
             if (root->left() == 0) {
+                nodePath.append("0");
                 root->setLeft(node);
+                node->setPath(nodePath);
                 characters.remove(0,1);
 
                 if(!characters.isEmpty()) {
@@ -62,7 +70,9 @@ void Tree::verifyChar(QString characters, Node * root) {
                 }
 
             } else {
+                nodePath.append("1");
                 root->setRight(node);
+                node->setPath(nodePath);
                 characters.remove(0,1);
 
                 if(!characters.isEmpty()) {

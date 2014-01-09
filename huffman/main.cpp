@@ -12,6 +12,10 @@ int main() {
     //Node * root = teste->root();
     //teste->setHeight(root);
     teste->showTree();
+    //qDebug() << teste->root()->left()->right()->path();
+    CreateHuffmanTree * chT = new CreateHuffmanTree();
+    chT->createHash(teste);
+    chT->showHash();
 
 
    /* File * f = new File("/home/marilia/", "teste.txt");

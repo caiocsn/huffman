@@ -1,6 +1,7 @@
 #ifndef NODE_H
 #define NODE_H
 # include <QChar>
+# include <QString>
 
 class Node {
 public:
@@ -24,6 +25,10 @@ public:
     Node * next();
     void setHeight(int height);
     int height();
+
+    //asdfghgfdsadfggfdsasdfgh
+    void setPath(QString path);
+    QString path();
 private:
     Node * m_root;
     Node * m_left;
@@ -32,6 +37,8 @@ private:
     char m_key;
     int m_frequency;
     int m_height;
+    //asdfghgfdsadfggfdsasdfgh
+    QString m_path;
 };
 
 #endif // NODE_H
