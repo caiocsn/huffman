@@ -6,6 +6,7 @@
 #include <Queue.h>
 #include <QList>
 #include <Occurrence.h>
+#include <QHash>
 
 class CreateHuffmanTree
 {
@@ -17,9 +18,13 @@ public:
     Tree * tree();
     void setTree(Tree * t);
     Tree * createTree();
+    void setHash(QHash hash);
+    QHash hash();
+
 private:
     Queue * m_occurrences;
     Tree * m_tree;
+    QHash m_hash;
 };
 
 #endif // CREATEHUFFMANTREE_H

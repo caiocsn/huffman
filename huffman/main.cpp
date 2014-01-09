@@ -8,11 +8,13 @@
 #include <CreateHuffmanTree.h>
 
 int main() {
-    Tree * teste = new Tree("(ac)b");
+    Tree * teste = new Tree("(((ab)c)(ed))f");
+    //Node * root = teste->root();
+    //teste->setHeight(root);
     teste->showTree();
 
 
-    File * f = new File("/home/larissartemis/workspace/huffman/huffman/", "teste.txt");
+   /* File * f = new File("/home/marilia/", "teste.txt");
     QByteArray q = f->read();
     CountOccurrence * co = new CountOccurrence(q);
     qDebug() << "counted";
@@ -35,7 +37,11 @@ int main() {
     QByteArray byteArray;
     byteArray.append(t->rep());
 
-    f->write(byteArray, t->rep(), 5);
+    //f->write(byteArray, t->rep(), 5);
+
+    */
+
+
 
     qDebug() << "done";
 

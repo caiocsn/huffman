@@ -3,7 +3,6 @@
 
 # include <QString>
 # include <Node.h>
-# include <QStack>
 
 class Tree {
 public:
@@ -23,8 +22,7 @@ private:
     void preOrderRep(Node * node);
     int max(int n1, int n2);
     void visitRep(Node * node);
-    //void verifyChar(QString characters, QStack<char> stack, Node * granRoot, Node * root);
-    void verifyChar(QString characters, Node * granRoot, Node * root);
+    void verifyChar(QString characters, Node * root);
 private:
     Node * m_root;
     QString m_rep;

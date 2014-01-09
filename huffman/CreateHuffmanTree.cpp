@@ -42,12 +42,9 @@ Tree * CreateHuffmanTree::createTree() {
         int n3freq = n1->frequency() + n2->frequency();
         n3->setFrequency(n3freq);
 
-        qDebug() << "\n\nn1" << n1->frequency() << n1->key();
-        qDebug() << "n2" << n2->frequency() << n2->key();
-        qDebug() << "n3" << n3->frequency() << n3->key();
 
-        n3->setRight(n1);
-        n3->setLeft(n2);
+        n3->setRight(n2);
+        n3->setLeft(n1);
         m_occurrences->enqueue(n3);
         root = n3;
     }

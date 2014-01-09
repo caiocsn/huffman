@@ -1,7 +1,6 @@
 # include <QDebug>
 # include <Tree.h>
 # include <QString>
-//# include <QStack>
 
 Tree::Tree() {
     m_root = 0;
@@ -10,21 +9,20 @@ Tree::Tree() {
 Tree::Tree(Node * root) {
     m_root = root;
 }
-//void Tree::verifyChar(QString characters, QStack<char> stack, Node * granRoot, Node * root) {
-void Tree::verifyChar(QString characters, Node * granRoot, Node * root) {
+
+void Tree::verifyChar(QString characters, Node * root) {
     char character = characters.at(0).toLatin1();
 
     if (character == '(') {
-        //stack.append('(');
         Node * node = new Node();
+        node->setRoot(root);
 
         if (root->left() == 0) {
             root->setLeft(node);
             characters.remove(0,1);
 
             if(!characters.isEmpty()) {
-                //verifyChar(characters, stack, root, node);
-                verifyChar(characters, root, node);
+                verifyChar(characters, node);
             }
 
         } else {
@@ -32,32 +30,35 @@ void Tree::verifyChar(QString characters, Node * granRoot, Node * root) {
             characters.remove(0,1);
 
             if(!characters.isEmpty()) {
-                //verifyChar(characters, stack, root, node);
-                verifyChar(characters, root, node);
+                verifyChar(characters, node);
             }
         }
     } else {
 
         if (character == ')') {
-            //stack.removeLast();
 
             characters.remove(0,1);
 
             if(!characters.isEmpty()) {
-                //verifyChar(characters, stack, NULL, granRoot);
-                verifyChar(characters, NULL, granRoot);
+                verifyChar(characters, root->root());
             }
 
         } else {
+
             Node * node = new Node(character);
+            node->setRoot(root);
+
+            if (character == '00x0') {
+                node->setKey(characters.at(1).toLatin1());
+                characters.remove(0,1);
+            }
 
             if (root->left() == 0) {
                 root->setLeft(node);
                 characters.remove(0,1);
 
                 if(!characters.isEmpty()) {
-                    //verifyChar(characters, stack, granRoot, root);
-                    verifyChar(characters, granRoot, root);
+                    verifyChar(characters, root);
                 }
 
             } else {
@@ -65,8 +66,7 @@ void Tree::verifyChar(QString characters, Node * granRoot, Node * root) {
                 characters.remove(0,1);
 
                 if(!characters.isEmpty()) {
-                   // verifyChar(characters, stack, granRoot, root);
-                    verifyChar(characters, granRoot, root);
+                    verifyChar(characters, root);
                 }
             }
         }
@@ -78,7 +78,7 @@ void Tree::verifyChar(QString characters, Node * granRoot, Node * root) {
 Tree::Tree (QString rep) {
     m_rep = rep;
     Node * root =  new Node();
-    verifyChar(rep, NULL, root);
+    verifyChar(rep, root);
     m_root = root;
 }
 
@@ -142,7 +142,12 @@ void Tree::preOrderRep(Node *node) {
         preOrderRep(node->left());
         if (node->left() && !node->left()->isLeaf()) m_rep.append(")");
 
-        if (node->key() != 0) m_rep.append(node->key());
+        if (node->key() != 0) {
+            if(node->key() == '(' || node->key() == ')') {
+                m_rep.append('00x0');
+            }
+            m_rep.append(node->key());
+        }
 
         if (node->right() && !node->right()->isLeaf()) m_rep.append("(");
         preOrderRep(node->right());
