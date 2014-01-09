@@ -1,10 +1,17 @@
 #ifndef NODE_H
 #define NODE_H
+# include <QChar>
 
 class Node {
 public:
     Node ();
+<<<<<<< HEAD
     Node (char key, int frequency);
+=======
+    Node (char key);
+    Node (QChar key);
+    Node (char key, int m_height);
+>>>>>>> 6ff3a3b715a0bc079abe65456336239aeb52ac83
     ~Node ();
     void setLeft (Node * left);
     Node * left();

@@ -1,6 +1,7 @@
 # include <QDebug>
 # include <Tree.h>
 # include <QString>
+//# include <QStack>
 
 Tree::Tree() {
     m_root = 0;
@@ -9,10 +10,76 @@ Tree::Tree() {
 Tree::Tree(Node * root) {
     m_root = root;
 }
+//void Tree::verifyChar(QString characters, QStack<char> stack, Node * granRoot, Node * root) {
+void Tree::verifyChar(QString characters, Node * granRoot, Node * root) {
+    char character = characters.at(0).toLatin1();
+
+    if (character == '(') {
+        //stack.append('(');
+        Node * node = new Node();
+
+        if (root->left() == 0) {
+            root->setLeft(node);
+            characters.remove(0,1);
+
+            if(!characters.isEmpty()) {
+                //verifyChar(characters, stack, root, node);
+                verifyChar(characters, root, node);
+            }
+
+        } else {
+            root->setRight(node);
+            characters.remove(0,1);
+
+            if(!characters.isEmpty()) {
+                //verifyChar(characters, stack, root, node);
+                verifyChar(characters, root, node);
+            }
+        }
+    } else {
+
+        if (character == ')') {
+            //stack.removeLast();
+
+            characters.remove(0,1);
+
+            if(!characters.isEmpty()) {
+                //verifyChar(characters, stack, NULL, granRoot);
+                verifyChar(characters, NULL, granRoot);
+            }
+
+        } else {
+            Node * node = new Node(character);
+
+            if (root->left() == 0) {
+                root->setLeft(node);
+                characters.remove(0,1);
+
+                if(!characters.isEmpty()) {
+                    //verifyChar(characters, stack, granRoot, root);
+                    verifyChar(characters, granRoot, root);
+                }
+
+            } else {
+                root->setRight(node);
+                characters.remove(0,1);
+
+                if(!characters.isEmpty()) {
+                   // verifyChar(characters, stack, granRoot, root);
+                    verifyChar(characters, granRoot, root);
+                }
+            }
+        }
+
+    }
+
+}
 
 Tree::Tree (QString rep) {
     m_rep = rep;
-    // ... ?
+    Node * root =  new Node();
+    verifyChar(rep, NULL, root);
+    m_root = root;
 }
 
 Tree::~Tree () {

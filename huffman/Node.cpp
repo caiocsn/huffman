@@ -10,6 +10,7 @@ Node::Node() {
     m_height = 0;
 }
 
+<<<<<<< HEAD
 Node::Node(char key, int frequency) {
     m_left = 0;
     m_right = 0;
@@ -17,6 +18,27 @@ Node::Node(char key, int frequency) {
     m_key = key;
     m_next = 0;
     m_height = 0;
+=======
+Node::Node(char key) {
+    this->m_left = 0;
+    this->m_right = 0;
+    this->m_height = 0;
+    this->m_key = key;
+}
+
+Node::Node(QChar key) {
+    this->m_left = 0;
+    this->m_right = 0;
+    this->m_height = 0;
+    this->m_key = key.toLatin1();
+}
+
+Node::Node(char key, int height) {
+    this->m_left = 0;
+    this->m_right = 0;
+    this->m_height = height;
+    this->m_key = key;
+>>>>>>> 6ff3a3b715a0bc079abe65456336239aeb52ac83
 }
 
 Node::~Node() {
