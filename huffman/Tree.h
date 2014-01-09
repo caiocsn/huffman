@@ -15,9 +15,12 @@ public:
     Node * root();
     void setRoot (Node * newRoot);
     QString rep ();
+    int setHeight(Node * node);
 private:
     void preOrder(Node * node);
+    void visit(Node * node);
     void preOrderRep(Node * node);
+    int max(int n1, int n2);
 private:
     Node * m_root;
     QString m_rep;

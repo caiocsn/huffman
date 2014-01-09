@@ -3,7 +3,6 @@
 Occurrence::Occurrence(char charCode) {
     set_char(charCode);
     set_count(0);
-    setNext(0);
 }
 
 Occurrence::Occurrence() {}
@@ -24,12 +23,4 @@ void Occurrence::set_char(char ch) {
 
 void Occurrence::set_count(int count) {
     m_count = count;
-}
-
-Occurrence Occurrence::m_next() {
-    return m_next;
-}
-
-void Occurrence::setNext(Occurrence * next) {
-    m_next = next;
 }

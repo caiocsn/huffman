@@ -1,60 +1,67 @@
+# include <QDebug>
 # include <Node.h>
 
 Node::Node() {
-    this->m_left = 0;
-    this->m_right = 0;
-    this->m_frequency = 0;
-    this->m_key = 0;
+    m_left = 0;
+    m_right = 0;
+    m_frequency = 0;
+    m_key = 0;
+    m_next = 0;
+    m_height = 0;
 }
 
 Node::Node(char key, int frequency) {
-    this->m_left = 0;
-    this->m_right = 0;
-    this->m_frequency = frequency;
-    this->m_key = key;
+    m_left = 0;
+    m_right = 0;
+    m_frequency = frequency;
+    m_key = key;
+    m_next = 0;
+    m_height = 0;
 }
 
 Node::~Node() {
-    this->m_left = 0;
-    this->m_right = 0;
-    this->m_frequency = 0;
-    this->m_key = 0;
+    m_left = 0;
+    m_right = 0;
+    m_frequency = 0;
+    m_key = 0;
+    m_next = 0;
+    m_height = 0;
 }
 
 void Node::setLeft(Node *left) {
-    this->m_left = left;
+    m_left = left;
 }
 
 Node * Node::left() {
-    return this->m_left;
+    return m_left;
 }
 
 void Node::setRight(Node *right) {
-    this->m_right = right;
+    m_right = right;
 }
 
 Node * Node::right() {
-    return this->m_right;
+    return m_right;
 }
 
-void Node::setFrequency(int height) {
-    this->m_frequency = height;
+void Node::setFrequency(int freq) {
+    m_frequency = freq;
 }
 
 int Node::frequency() {
-    return this->m_frequency;
+    return m_frequency;
 }
 
 void Node::setKey(char key) {
-    this->m_key = key;
+    m_key = key;
 }
 
 char Node::key() {
-    return this->m_key;
+    return m_key;
 }
 
 bool Node::isLeaf() {
-    if (this->left() || this->right()) {
+    if (left() || right()) {
         return false;
     } else {
         return true;
@@ -70,4 +77,15 @@ void Node::setNext(Node *node)
 Node *Node::next()
 {
     return m_next;
+}
+
+void Node::setHeight(int height) {
+    int h = height - 1;
+    if (left()) left()->setHeight(h);
+    if (right()) right()->setHeight(h);
+    m_height = height;
+}
+
+int Node::height() {
+    return m_height;
 }

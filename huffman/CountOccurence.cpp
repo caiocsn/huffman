@@ -25,14 +25,15 @@ void CountOccurrence :: count () {
             int ct = m_file.count(ch);
             occur.set_count(ct);
             m_occurrence.append(occur);
-            qDebug() << "!exist ~ ch " << ch << " ~ ct " << ct;
+            // qDebug() << "!exist ~ ch " << ch << " ~ ct " << ct;
         }
     }
 }
 
 QList<Occurrence> CountOccurrence :: orderByOccurrence () {
-    qDebug() << "\n";
-    QList<Occurrence> ordered  = QList<Occurrence>();
+    count();
+
+    QList<Occurrence> ordered;
 
     for (int i = 0; i < m_occurrence.size(); ++i) {
         for (int j = i; j > 0 && m_occurrence[j].count() < m_occurrence[j-1].count(); --j) {
@@ -42,7 +43,7 @@ QList<Occurrence> CountOccurrence :: orderByOccurrence () {
         }
     }
     for (int i = 0; i < m_occurrence.size(); ++i) {
-        qDebug() << m_occurrence[i].character() << " appear " << m_occurrence[i].count();
+        // qDebug() << m_occurrence[i].character() << " appear " << m_occurrence[i].count();
         ordered.append(m_occurrence[i]);
     }
 

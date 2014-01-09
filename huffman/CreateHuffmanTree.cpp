@@ -1,7 +1,12 @@
+#include <QDebug>
 #include "CreateHuffmanTree.h"
 
-CreateHuffmanTree::CreateHuffmanTree(Queue * occur) {
-    m_occurrences = occur;
+CreateHuffmanTree::CreateHuffmanTree(QList<Occurrence> oc) {
+    m_occurrences = new Queue();
+    for (int i = 0; i < oc.size(); ++i) {
+        Node * n = new Node(oc[i].character(), oc[i].count());
+        m_occurrences->enqueue(n);
+    }
 }
 
 CreateHuffmanTree::~CreateHuffmanTree() {
@@ -35,11 +40,18 @@ Tree * CreateHuffmanTree::createTree() {
         m_occurrences->dequeue();
         Node * n3 = new Node();
         int n3freq = n1->frequency() + n2->frequency();
+        qDebug() << "n1" << n1->frequency() << n1->key();
+        qDebug() << "n2" << n2->frequency() << n2->key();
+        qDebug() << "n3" << n3->frequency() << n3->key();
         n3->setFrequency(n3freq);
         n3->setRight(n1);
         n3->setLeft(n2);
         m_occurrences->enqueue(n3);
         root = n3;
     }
+    t->setRoot(root);
+    int h = t->setHeight(root);
+    root->setHeight(h);
+    qDebug() << root->height();
     return t;
 }

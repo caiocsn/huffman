@@ -37,16 +37,37 @@ void Tree::setRoot (Node * newRoot) {
 
 QString Tree::rep () {
     // qDebug() << "Tree: " << m_rep;
+    createRep();
     return m_rep;
+
+}
+
+int Tree::setHeight(Node * node) {
+    if (!node) return -1;
+    return 1 + max(setHeight(node->left()), setHeight(node->right()));
 }
 
 void Tree::preOrder(Node *node) {
     if (node) {
         preOrder(node->left());
-        qDebug() << node->key() << node->frequency();
+        this->visit(node);
         preOrder(node->right());
     }
 }
+
+void Tree::visit(Node *node) {
+    QString str = "";
+    if (node->key() != 0) {
+        str.append(node->key());
+    } else {
+        str.append("[]");
+    }
+    for(int i = 0; i < node->height(); ++i) {
+        str.prepend("\t");
+    }
+    qDebug() << str;
+}
+
 
 void Tree::preOrderRep(Node *node) {
     if (node) {
@@ -60,4 +81,10 @@ void Tree::preOrderRep(Node *node) {
         preOrderRep(node->right());
         if (node->right() && !node->right()->isLeaf()) m_rep.append(")");
     }
+}
+
+int Tree::max(int n1, int n2)
+{
+    if (n1 > n2) return n1;
+    else return n2;
 }

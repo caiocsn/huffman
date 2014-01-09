@@ -4,11 +4,13 @@
 #include <Node.h>
 #include <Tree.h>
 #include <Queue.h>
+#include <QList>
+#include <Occurrence.h>
 
 class CreateHuffmanTree
 {
 public:
-    CreateHuffmanTree(Queue * occur);
+    CreateHuffmanTree(QList<Occurrence> oc);
     ~CreateHuffmanTree();
     Queue * occurrence();
     void setOccurence(Queue * occur);

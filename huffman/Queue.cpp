@@ -1,13 +1,15 @@
 #include <Queue.h>
 #include <QDebug>
 
-Queue::Queue() {}
+Queue::Queue() {
+    m_count = 0;
+    m_base = 0;
+}
 
 void Queue:: clear() {
-    qDebug() << "clear!";
     Node * current = m_base;
     for (int i = 0; i < m_count; ++i) {
-        Node * aux = current->next;
+        Node * aux = current->next();
         delete current;
         current = aux;
         delete aux;
@@ -16,30 +18,33 @@ void Queue:: clear() {
 }
 
 void Queue:: enqueue(Node * node) {
-    qDebug() << "enqueue!";
     if(m_base) {
-        node->setNext(m_base);
+        Node * aux = m_base;
+        while  (aux->next() && aux->frequency() < node->frequency()) {
+            aux = aux->next();
+        }
+        node->setNext(aux->next());
+        aux->setNext(node);
+    } else {
+        m_base = node;
     }
-    m_base = node;
     ++m_count;
 }
 
 Node * Queue:: dequeue() {
-    qDebug() << "dequeue!";
-    Node * aux = m_base;
+    Node * aux = new Node(m_base->key(), m_base->frequency());
+    aux->setNext(m_base->next());
     m_base = m_base->next();
     --m_count;
-    return aux->value;
+    return aux;
 }
 
 Node * Queue::frontValue()
 {
-    qDebug() << "frontValue!";
-    return m_base->key();
+    return m_base;
 }
 
-int Queue::length() const
+int Queue::length()
 {
-    qDebug() << "length!";
     return m_count;
 }

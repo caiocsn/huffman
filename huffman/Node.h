@@ -17,12 +17,15 @@ public:
     bool isLeaf();
     void setNext(Node * node);
     Node * next();
+    void setHeight(int height);
+    int height();
 private:
     Node * m_left;
     Node * m_right;
     Node * m_next;
     char m_key;
     int m_frequency;
+    int m_height;
 };
 
 #endif // NODE_H

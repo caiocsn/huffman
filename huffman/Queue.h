@@ -3,7 +3,7 @@
 
 #include <Node.h>
 
-class Queue : public QueueADT {
+class Queue {
 private:
   void operator = (const Queue&) {}      // Protect assignment
   Queue(const Queue&) {}           // Protect copy constructor
@@ -12,8 +12,8 @@ public:
     void clear();
     void enqueue(Node * node);
     Node * dequeue();
-    Node * frontValue() const;
-    int length() const;
+    Node * frontValue();
+    int length();
 private:
     Node * m_base;
     int m_count;
