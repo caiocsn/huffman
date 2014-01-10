@@ -75,6 +75,8 @@ void File::write(QByteArray byteArray, QString repTree, int garbageSize) {
     QString toBit = binaryGarbageSize;
     toBit.append(binaryTreeSize);
 
+    qDebug() << "header " << toBit;
+
     QBitArray toByte(16);
     for(int i = 0; i < 16; ++i) {
         if (toBit.at(i) == '0')
@@ -96,8 +98,6 @@ void File::write(QByteArray byteArray, QString repTree, int garbageSize) {
     header.append(repTree);
 
     QFile file(m_path + "compactado.huff");
-    qDebug() << "header " << header;
-    qDebug() << "qbytearray " << byteArray;
     file.open(QIODevice::ReadWrite | QIODevice::Text);
     file.write(header);
     file.write(byteArray);
