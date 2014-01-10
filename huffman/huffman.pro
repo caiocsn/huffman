@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     CountOccurence.cpp \
     File.cpp \
     CreateHuffmanTree.cpp \
-    Queue.cpp
+    Queue.cpp \
+    Compress.cpp
 
 HEADERS += \
     Node.h \
@@ -32,4 +33,5 @@ HEADERS += \
     Occurrence.h \
     File.h \
     CreateHuffmanTree.h \
-    Queue.h
+    Queue.h \
+    Compress.h

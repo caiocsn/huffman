@@ -2,7 +2,8 @@
 #include "CreateHuffmanTree.h"
 
 CreateHuffmanTree::CreateHuffmanTree(QList<Occurrence> oc) {
-    m_hash = new QHash<Node *, QString>();
+//    m_hash = new QHash<Node *, QString>();
+    m_hash = new QHash<char, QString>();
     m_occurrences = new Queue();
     for (int i = 0; i < oc.size(); ++i) {
         Node * n = new Node(oc[i].character(), oc[i].count());
@@ -11,7 +12,8 @@ CreateHuffmanTree::CreateHuffmanTree(QList<Occurrence> oc) {
 }
 
 CreateHuffmanTree::CreateHuffmanTree() {
-    m_hash = new QHash<Node *, QString>();
+//    m_hash = new QHash<Node *, QString>();
+    m_hash = new QHash<char, QString>();
     m_occurrences = new Queue();
 }
 
@@ -48,8 +50,8 @@ Tree * CreateHuffmanTree::createTree() {
         Node * n3 = new Node();
         int n3freq = n1->frequency() + n2->frequency();
         n3->setFrequency(n3freq);
-        n3->setRight(n2);
-        n3->setLeft(n1);
+        n3->setRight(n1);
+        n3->setLeft(n2);
         m_occurrences->enqueue(n3);
         root = n3;
     }
@@ -60,11 +62,15 @@ Tree * CreateHuffmanTree::createTree() {
     return t;
 }
 
-void CreateHuffmanTree::setHash(QHash<Node *, QString> * hash) {
+//void CreateHuffmanTree::setHash(QHash<Node *, QString> * hash) {
+void CreateHuffmanTree::setHash(QHash<char, QString> * hash) {
     m_hash = hash;
 }
 
-QHash<Node*, QString> * CreateHuffmanTree::hash() {
+//QHash<Node*, QString> * CreateHuffmanTree::hash() {
+  //  return m_hash;
+//}
+QHash<char, QString> * CreateHuffmanTree::hash() {
     return m_hash;
 }
 
@@ -76,25 +82,39 @@ void CreateHuffmanTree::createHash(Tree *t) {
 
 void CreateHuffmanTree::addNodeToHash(Node *node, QString path) {
     if (node->isLeaf()) {
-        m_hash->insert(node, path);
+        //m_hash->insert(node, path);
+        addNodeToHash(node->key(), path);
     } else {
         // call addNode to hash passing right and left node
         if (node->left()) {
+            QString path = node->path();
+            path.append("0");
+            node->left()->setPath(path);
             addNodeToHash(node->left(), node->left()->path());
         }
 
         if (node->right()) {
+            QString path = node->path();
+            path.append("1");
+            node->right()->setPath(path);
             addNodeToHash(node->right(), node->right()->path());
         }
     }
 }
 
+void CreateHuffmanTree::addNodeToHash(char key, QString path) {
+        m_hash->insert(key, path);
+}
+
 
 void CreateHuffmanTree::showHash() {
-    QList<Node*> nodes = m_hash->keys();
-    for (int i = 0; i < nodes.size(); ++i) {
-        qDebug() << nodes[i]->key();
-        qDebug() << nodes[i]->path();
+    //QList<Node*> nodes = m_hash->keys();
+    QList<char> keys = m_hash->keys();
+    for (int i = 0; i < keys.size(); ++i) {
+        qDebug() << keys[i];
+        qDebug() << m_hash->take(keys[i]);
+       // qDebug() << nodes[i]->key();
+       // qDebug() << nodes[i]->path();
 
     }
 }

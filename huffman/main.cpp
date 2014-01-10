@@ -1,11 +1,4 @@
-#include <Tree.h>
-#include <File.h>
-#include <QDebug>
-#include <iostream>
-#include <QByteArray>
-#include <QFile>
-#include <CountOccurrence.h>
-#include <CreateHuffmanTree.h>
+#include <Compress.h>
 
 int main() {
     Tree * teste = new Tree("(((ab)c)(ed))f");
@@ -18,7 +11,11 @@ int main() {
     chT->showHash();
 
 
-   /* File * f = new File("/home/marilia/", "teste.txt");
+    /*
+    File * f = new File("/home/marilia/", "teste.txt");
+    // QString texto = "AAABBBBBCC" ;
+    // QByteArray q;
+    // q.append(texto);
     QByteArray q = f->read();
     CountOccurrence * co = new CountOccurrence(q);
     qDebug() << "counted";
@@ -29,8 +26,11 @@ int main() {
     Tree * t = cht->createTree();
     qDebug() << "created t";
     t->showTree();
-    QString rep = t->rep();
-    qDebug() << rep;
+    // QString rep = t->rep();
+    // qDebug() << rep;
+    cht->createHash(t);
+    qDebug() << "hash";
+    cht->showHash();
 
     // codificado
     // QByteArray cod;
@@ -46,6 +46,8 @@ int main() {
     */
 
 
+
+   //Compress c = Compress("/home/marilia/teste.txt");
 
     qDebug() << "done";
 
