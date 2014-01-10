@@ -44,9 +44,11 @@ int main() {
 
     //f->write(byteArray, t->rep(), 5);
 
-   Compress c = Compress("/home/marilia/projetop2/teste.txt");
-   // Compress c = Compress("/home/larissartemis/Imagens/teste.png");
-   c.compress();
+   //Compress d = Compress("/home/marilia/projetop2/teste.txt");
+   Compress c = Compress("/home/marilia/projetop2/compactado.huff");
+   //d.compress();
+   qDebug() << "done1";
+   c.uncompress();
    qDebug() << "done";
 
 

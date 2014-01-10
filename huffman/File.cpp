@@ -89,7 +89,9 @@ void File::write(QByteArray byteArray, QString repTree, int garbageSize) {
 
     QByteArray filename128b;
     filename128b.append(m_filename);
-
+    for (int i = filename128b.size(); i < 128; ++i ) {
+        filename128b.append("#");
+    }
     header.append(filename128b);
     header.append(repTree);
 

@@ -102,6 +102,7 @@ void Tree::showTree() {
 
 QString Tree::createRep () {
     preOrderRep(m_root);
+    return m_rep;
 }
 
 Node * Tree::root() {
