@@ -101,7 +101,7 @@ bool Compress::uncompress() {
 bool Compress::compress() {
     File * f = new File(m_path, m_fileName);
     QByteArray qba = f->read();
-    if (qba) {
+    if (qba != 0) {
         CountOccurrence * co = new CountOccurrence(qba);
         QList<Occurrence> occur = co->orderByOccurrence();
         CreateHuffmanTree * cht = new CreateHuffmanTree(occur);
@@ -163,7 +163,7 @@ bool Compress::compress() {
             toWrite.append("#");
         }
 
-        toWrite.append(repTree);
+        toWrite.append(tree->rep());
         toWrite.append(data);
         toWrite.append(encoded);
 
