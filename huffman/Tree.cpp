@@ -4,6 +4,7 @@
 
 Tree::Tree() {
     m_root = 0;
+    m_rep = "";
 }
 
 Tree::Tree(Node * root) {
@@ -94,6 +95,7 @@ Tree::Tree (QString rep) {
 
 Tree::~Tree () {
     delete m_root;
+    m_rep = "";
 }
 
 void Tree::showTree() {
@@ -101,6 +103,7 @@ void Tree::showTree() {
 }
 
 QString Tree::createRep () {
+    m_rep = "";
     preOrderRep(m_root);
     return m_rep;
 }
