@@ -102,46 +102,81 @@ bool Compress::uncompress() {
 bool Compress::compress() {
     File * f = new File(m_path, m_fileName);
     QByteArray qba = f->read();
-    // if (qba != 0) return false;
-    CountOccurrence * co = new CountOccurrence(qba);
-    co->count();
-    QList<Occurrence> occur = co->orderByOccurrence();
-    CreateHuffmanTree * cht = new CreateHuffmanTree(occur);
-    Tree * tree = cht->createTree();
-    cht->createHash(tree);
+    if (qba) {
+        CountOccurrence * co = new CountOccurrence(qba);
+        QList<Occurrence> occur = co->orderByOccurrence();
+        CreateHuffmanTree * cht = new CreateHuffmanTree(occur);
+        Tree * tree = cht->createTree();
+        cht->createHash(tree);
 
-    QString data;
-    for (int i = 0; i < qba.size(); ++i) {
-        QString pathNode = cht->hash()->value(qba.at(i));
-        data.append(pathNode);
-    }
-    int garbageSize = 7 - data.size()%8; // seven?
-    for (int i = 0; i <= garbageSize; ++i) {
-        data.append("0");
-    }
-
-    QString toBit = data;
-    QBitArray toByte;
-    toByte.resize(data.size());
-    for (int i = 0; i < data.size(); ++i) {
-        if (toBit.at(i) == '0') {
-            toByte[i] = true;
+        QString data;
+        for (int i = 0; i < qba.size(); ++i) {
+            QString pathNode = cht->hash()->value(qba.at(i));
+            data.append(pathNode);
         }
-        else {
-            toByte[i] = false;
+        int garbageSize = 8 - data.size()%8;
+        if (garbageSize == 8) {
+            garbageSize = 0;
         }
+        for (int i = 0; i < garbageSize; ++i) {
+            data.append("0");
+        }
+
+        QBitArray toByte;
+        toByte.resize(data.size());
+        for (int i = 0; i < data.size(); ++i) {
+            if (data.at(i) == '0') {
+                toByte[i] = true;
+            }
+            else {
+                toByte[i] = false;
+            }
+        }
+
+        bool ok;
+        QByteArray encoded;
+        for (int i = 0; i < data.size(); i+=8) {
+            QString h = data.mid(i,i+8);
+            encoded.append(QChar(h.toInt(&ok, 2)));
+        }
+
+        QString binaryGarbageSize = QString::number(garbageSize,2);
+        QString binaryTreeSize = QString::number(repTree.size(),2);
+        int zeros = 16 - (binaryGarbageSize.size() + binaryTreeSize.size());
+        for (int i = 0; i < zeros; ++i) {
+            binaryTreeSize.prepend(QString::number(0));
+        }
+
+        QString toBit = binaryGarbageSize;
+        toBit.append(binaryTreeSize);
+
+        int h1 = toBit.mid(0,8).toInt(&ok, 2);
+        int h2 = toBit.mid(8,16).toInt(&ok, 2);;
+
+        QByteArray toWrite;
+        toWrite.resize(2);
+        toWrite.clear();
+        toWrite.append(QChar(h1));
+        toWrite.append(QChar(h2));
+        toWrite.append(m_fileName);
+
+        for (int i = m_fileName.size(); i < 128; ++i ) {
+            toWrite.append("#");
+        }
+
+        header.append(repTree);
+        header.append(data);
+        header.append(encoded);
+
+        f->write(encoded);
+        qDebug() << m_fileName << " compressed";
+
+        return true;
+    } else {
+        qDebug() << "file not found";
+
+        return false;
     }
-
-    QByteArray encoded;
-    encoded.resize(data.size()/8);
-    for (int i = 0; i < toByte.size(); ++i) {
-        encoded[i/8] = (encoded.at(i/8) | ((toByte[i]?1:0)<<(i%8)));
-    }
-
-    f->write(encoded, tree->rep(), garbageSize);
-    qDebug() << m_fileName << " compressed";
-
-    return true;
 }
 
 

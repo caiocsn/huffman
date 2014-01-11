@@ -12,7 +12,7 @@ public:
     ~File();
     void split();
     QByteArray read();
-    void write(QByteArray byteArray, QString repTree, int garbageSize);
+    void write(QByteArray byteArray);
 private:
     QString m_path;
     QString m_filename;
