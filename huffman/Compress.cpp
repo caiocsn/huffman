@@ -24,7 +24,21 @@ bool Compress::uncompress() {
     File * f = new File(m_path, m_fileName);
     QByteArray qba = f->read();
     if (qba != 0) {
-        QByteArray nameFile;
+        QString size;
+        size = qba.mid(0, 3);
+        int c1 = size.at(0).unicode();
+        int c2 = size.at(1).unicode();
+        qDebug() << c1 << " " << c2;
+        size.clear();
+
+        QString s1 = fill(QString::number(c1, 2));
+        QString s2 = fill(QString::number(c2, 2));
+        size.append(s1);
+        size.append(s2);
+
+        qDebug() << size;
+
+        QString nameFile;
         for (int i = 2; i < 130; ++i) {
             if (qba[i] == '#') {
                 break;
@@ -32,55 +46,15 @@ bool Compress::uncompress() {
             nameFile.append(qba.at(i));
         }
 
-        QByteArray size;
-        size.append(qba.at(0));
-        size.append(qba.at(1));
-        qDebug() << "2char " << size;
 
 
-        /*
-     *QString > QBitArray
-     *QString str = "123 ABC";
-     *foreach( QChar c, str ){
-     *qDebug() << c << "=" << c.unicode() << "=" << QString( "%1" ).arg( c.unicode(), 0 , 2 );
-     *}
-     */
-
-        QBitArray bits(16);
-        // Convert from QByteArray to QBitArray
-        for(int i = 0; i < 2; ++i) {
-            for(int b = 0; b < 8; ++b) {
-                bits.setBit(i*8+b, size.at(i)&(1<<b));
-            }
-        }
-        qDebug() << "bits " << bits;
-
-        QString q;
-        for (int i = 0; i < 3; ++i) {
-            if (bits.at(i)) {
-                q.append("1");
-            } else {
-                q.append("0");
-            }
-        }
-
-        bool ok;
-        int garbageSize = q.toInt(&ok, 2);
 
         QString tr;
-        for (int i = 3; i < 16; ++i) {
-            if (bits.at(i)) {
-                tr.append("1");
-            } else {
-                tr.append("0");
-            }
-        }
+        bool ok;
         int treeSize = tr.toInt(&ok, 2);
 
-        qDebug() << "g" << garbageSize << "t" << treeSize;
-
         QByteArray tree;
-        qDebug() << qba.size();
+        // qDebug() << qba.size();
         for (int i = 130; i < treeSize+130; ++i) {
             if (qba.at(i)) {
                 tree.append(qba.at(i));
@@ -155,6 +129,7 @@ bool Compress::compress() {
 
         QString toBit = binaryGarbageSize;
         toBit.append(binaryTreeSize);
+        qDebug() << toBit;
 
         int h1 = toBit.mid(0,8).toInt(&ok, 2);
         int h2 = toBit.mid(8,16).toInt(&ok, 2);
@@ -184,6 +159,18 @@ bool Compress::compress() {
 
         return false;
     }
+}
+
+QString Compress::fill(QString str)
+{
+    int zeros = 8 - str.size()%8;
+    if (zeros == 8) {
+        zeros = 0;
+    }
+    for (int i = 0; i < zeros; ++i) {
+        str.prepend('0');
+    }
+    return str;
 }
 
 

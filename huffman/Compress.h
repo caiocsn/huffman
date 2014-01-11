@@ -18,6 +18,8 @@ public:
     bool uncompress();
     bool compress();
 private:
+    QString fill(QString str);
+private:
     QString m_path;
     QString m_fileName;
 
