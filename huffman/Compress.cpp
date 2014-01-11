@@ -19,7 +19,6 @@ Compress::~Compress() {
 }
 
 bool Compress::uncompress() {
-    qDebug() << "unc";
     File * f = new File(m_path, m_fileName);
     QByteArray qba = f->read();
 
@@ -141,7 +140,7 @@ bool Compress::compress() {
         }
 
         QString binaryGarbageSize = QString::number(garbageSize,2);
-        QString binaryTreeSize = QString::number(repTree.size(),2);
+        QString binaryTreeSize = QString::number(tree->rep().size(),2);
         int zeros = 16 - (binaryGarbageSize.size() + binaryTreeSize.size());
         for (int i = 0; i < zeros; ++i) {
             binaryTreeSize.prepend(QString::number(0));
@@ -164,9 +163,9 @@ bool Compress::compress() {
             toWrite.append("#");
         }
 
-        header.append(repTree);
-        header.append(data);
-        header.append(encoded);
+        toWrite.append(repTree);
+        toWrite.append(data);
+        toWrite.append(encoded);
 
         f->write(encoded);
         qDebug() << m_fileName << " compressed";
