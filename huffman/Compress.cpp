@@ -13,8 +13,6 @@ Compress::Compress(QString pathFile) {
             break;
         }
     }
-    qDebug() << m_path;
-    qDebug() << m_fileName;
 }
 
 Compress::~Compress() {
@@ -24,9 +22,6 @@ bool Compress::uncompress() {
     qDebug() << "unc";
     File * f = new File(m_path, m_fileName);
     QByteArray qba = f->read();
-    QByteArray size;
-    size.append(qba.at(0));
-    size.append(qba.at(1));
 
     QByteArray nameFile;
     for (int i = 2; i < 130; ++i) {
@@ -35,6 +30,20 @@ bool Compress::uncompress() {
         }
         nameFile.append(qba.at(i));
     }
+
+    QByteArray size;
+    size.append(qba.at(0));
+    size.append(qba.at(1));
+    qDebug() << "2char " << size;
+
+
+    /*
+     *QString > QBitArray
+     *QString str = "123 ABC";
+     *foreach( QChar c, str ){
+     *qDebug() << c << "=" << c.unicode() << "=" << QString( "%1" ).arg( c.unicode(), 0 , 2 );
+     *}
+     */
 
     QBitArray bits(16);
     // Convert from QByteArray to QBitArray
@@ -57,15 +66,15 @@ bool Compress::uncompress() {
     bool ok;
     int garbageSize = q.toInt(&ok, 2);
 
-    QString t;
+    QString tr;
     for (int i = 3; i < 16; ++i) {
         if (bits.at(i)) {
-            t.append("1");
+            tr.append("1");
         } else {
-            t.append("0");
+            tr.append("0");
         }
     }
-    int treeSize = t.toInt(&ok, 2);
+    int treeSize = tr.toInt(&ok, 2);
 
     qDebug() << "g" << garbageSize << "t" << treeSize;
 
@@ -106,7 +115,7 @@ bool Compress::compress() {
         QString pathNode = cht->hash()->value(qba.at(i));
         data.append(pathNode);
     }
-    int garbageSize = 7 - data.size()%8;
+    int garbageSize = 7 - data.size()%8; // seven?
     for (int i = 0; i <= garbageSize; ++i) {
         data.append("0");
     }

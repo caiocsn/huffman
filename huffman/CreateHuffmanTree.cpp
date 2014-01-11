@@ -58,7 +58,6 @@ Tree * CreateHuffmanTree::createTree() {
     t->setRoot(root);
     int h = t->setHeight(root);
     root->setHeight(h);
-    qDebug() << root->height();
     return t;
 }
 

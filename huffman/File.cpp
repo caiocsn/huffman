@@ -1,3 +1,4 @@
+#include <QDataStream>
 #include <QBitArray>
 #include <QTextStream>
 #include <QDebug>
@@ -64,6 +65,7 @@ QByteArray File::read() {
 void File::write(QByteArray byteArray, QString repTree, int garbageSize) {
     QByteArray header;
     header.resize(2);
+    header.clear();
 
     QString binaryGarbageSize = QString::number(garbageSize,2);
     QString binaryTreeSize = QString::number(repTree.size(),2);
@@ -75,19 +77,12 @@ void File::write(QByteArray byteArray, QString repTree, int garbageSize) {
     QString toBit = binaryGarbageSize;
     toBit.append(binaryTreeSize);
 
-    qDebug() << "header " << toBit;
+    bool ok;
+    QString h1 = toBit.mid(0,8);
+    QString h2 = toBit.mid(8,16);
 
-    QBitArray toByte(16);
-    for(int i = 0; i < 16; ++i) {
-        if (toBit.at(i) == '0')
-            toByte[i]=false;
-        else
-            toByte[i]=true;
-    }
-
-    for (int i = 0; i < toByte.count(); ++i) {
-            header[i/8] = (header.at(i/8) | ((toByte[i]?1:0)<<(i%8)));
-    }
+    header.append(QChar(h1.toInt(&ok, 2)));
+    header.append(QChar(h2.toInt(&ok, 2)));
 
     QByteArray filename128b;
     filename128b.append(m_filename);
