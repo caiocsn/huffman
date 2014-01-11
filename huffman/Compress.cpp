@@ -25,10 +25,9 @@ bool Compress::uncompress() {
     QByteArray qba = f->read();
     if (qba != 0) {
         QString size;
-        size = qba.mid(0, 3);
+        size = qba.mid(0, 3); // why three?
         int c1 = size.at(0).unicode();
         int c2 = size.at(1).unicode();
-        qDebug() << c1 << " " << c2;
         size.clear();
 
         QString s1 = fill(QString::number(c1, 2));
@@ -36,34 +35,43 @@ bool Compress::uncompress() {
         size.append(s1);
         size.append(s2);
 
-        qDebug() << size;
+        s1.clear();
+        s2.clear();
+        for (int i = 0; i < 16; ++i) {
+            if (i < 3) {
+                s1.append(size.at(i));
+            } else {
+                s2.append(size.at(i));
+            }
+        }
+        qDebug() << s1;
+        bool ok;
+        qDebug() << "a is" << s1.toInt(&ok, 2);;
+        qDebug() << "b is" << s2.toInt(&ok, 2);;
 
-        QString nameFile;
-        for (int i = 2; i < 130; ++i) {
+        QString namefile;
+        for (int i = 3; i < 130; ++i) { // why three?
             if (qba[i] == '#') {
                 break;
             }
-            nameFile.append(qba.at(i));
+            namefile.append(qba.at(i));
         }
 
+//        QString tr;
+//        bool ok;
+//        int treeSize = tr.toInt(&ok, 2);
 
+//        QByteArray tree;
+//        // qDebug() << qba.size();
+//        for (int i = 130; i < treeSize+130; ++i) {
+//            if (qba.at(i)) {
+//                tree.append(qba.at(i));
+//            }
+//        }
 
+//        qDebug() << "Tree: " << tree;
 
-        QString tr;
-        bool ok;
-        int treeSize = tr.toInt(&ok, 2);
-
-        QByteArray tree;
-        // qDebug() << qba.size();
-        for (int i = 130; i < treeSize+130; ++i) {
-            if (qba.at(i)) {
-                tree.append(qba.at(i));
-            }
-        }
-
-        qDebug() << "Tree: " << tree;
-
-        Tree * t = new Tree(tree);
+//        Tree * t = new Tree(tree);
 
         // convert all data to QBitArray 'toDecode'
         // for (int i = 0; i < toDecode.size(); ++i
@@ -138,8 +146,6 @@ bool Compress::compress() {
         toWrite.clear();
         toWrite.append(QChar(h1));
         toWrite.append(QChar(h2));
-        qDebug() << h1 << "is " << QChar(h1);
-        qDebug() << h2 << "is " << QChar(h2);
         toWrite.append(m_fileName);
 
         for (int i = m_fileName.size(); i < 128; ++i ) {
@@ -151,7 +157,6 @@ bool Compress::compress() {
 
         f->write(toWrite);
         qDebug() << m_fileName << " compressed";
-        qDebug() << "\n" << toWrite << "\n";
 
         return true;
     } else {
