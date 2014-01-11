@@ -44,10 +44,10 @@ bool Compress::uncompress() {
                 s2.append(size.at(i));
             }
         }
-        qDebug() << s1;
+
         bool ok;
-        qDebug() << "a is" << s1.toInt(&ok, 2);;
-        qDebug() << "b is" << s2.toInt(&ok, 2);;
+        int garbageSize = s1.toInt(&ok, 2);;
+        int treeSize = s2.toInt(&ok, 2);;
 
         QString namefile;
         for (int i = 3; i < 130; ++i) { // why three?
@@ -57,21 +57,10 @@ bool Compress::uncompress() {
             namefile.append(qba.at(i));
         }
 
-//        QString tr;
-//        bool ok;
-//        int treeSize = tr.toInt(&ok, 2);
+        QString treeRep;
+        treeRep = qba.mid(131, treeSize);
 
-//        QByteArray tree;
-//        // qDebug() << qba.size();
-//        for (int i = 130; i < treeSize+130; ++i) {
-//            if (qba.at(i)) {
-//                tree.append(qba.at(i));
-//            }
-//        }
-
-//        qDebug() << "Tree: " << tree;
-
-//        Tree * t = new Tree(tree);
+        Tree * tr = new Tree(treeRep);
 
         // convert all data to QBitArray 'toDecode'
         // for (int i = 0; i < toDecode.size(); ++i
