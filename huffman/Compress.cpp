@@ -62,15 +62,35 @@ bool Compress::uncompress() {
 
         Tree * tr = new Tree(treeRep);
 
-        QString contentAux;
-        for (int i = treeSize+1; i < qba.size(); ++i) {
-            QChar simbol = qba.at(i);
+        QString content;
+        QString contentAux = qba.mid(treeSize+131, qba.size());
+        for (int i = 0; i < contentAux.size(); ++i) {
+            QChar simbol = contentAux.at(i);
             int unicode = simbol.unicode();
-            contentAux.append(QString::number(unicode, 2));
+            content.append(fill(QString::number(unicode, 2)));
         }
-        QString content = contentAux.mid(0, contentAux.size()-garbageSize); // remove is better?
+        // QString content = contentAux.mid(0, contentAux.size()-garbageSize); // remove is better?
+        qDebug() << "number of bytes of original file is " << qba.size() - (treeSize+131);
 
         qDebug() << "content is " << content;
+
+        QByteArray decoded;
+        Node * n = tr->root();
+        for (int i = 0; i < content.size(); ++i) {
+            if (n->isLeaf()) {
+                decoded.append(n->key());
+                n = tr->root();
+            } else {
+                if (content.at(i) == '0') {
+                    n = n->left();
+                } else if (content.at(i) == '1') {
+                    n = n->right();
+                } else {
+                    qDebug() << "something is wrong here...";
+                }
+            }
+        }
+        qDebug() << "decoded is " << decoded;
 
         // for (int i = 0; i < toDecode.size(); ++i
         //   traverse the tree; when bit is 0, go to the left; when bit is 1, go to the right
@@ -100,6 +120,7 @@ bool Compress::compress() {
             QString pathNode = cht->hash()->value(qba.at(i));
             data.append(pathNode);
         }
+        // fill data
         int garbageSize = 8 - data.size()%8;
         if (garbageSize == 8) {
             garbageSize = 0;
@@ -125,6 +146,8 @@ bool Compress::compress() {
             QString h = data.mid(i,i+8);
             encoded.append(QChar(h.toInt(&ok, 2)));
         }
+        qDebug() << "encoded is " << encoded;
+        qDebug() << "encodedS is " << encoded.size();
 
         QString binaryGarbageSize = QString::number(garbageSize,2);
         QString binaryTreeSize = QString::number(tree->rep().size(),2);
