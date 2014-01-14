@@ -23,7 +23,7 @@ Compress::~Compress() {
 bool Compress::uncompress() {
     File * f = new File(m_path, m_fileName);
     QByteArray qba = f->read();
-    if (qba != 0) {
+    if (qba != NULL) {
         QString size;
         size = qba.mid(0, 3); // why three?
         int c1 = size.at(0).unicode();
@@ -67,19 +67,19 @@ bool Compress::uncompress() {
         for (int i = 0; i < contentAux.size(); ++i) {
             QChar simbol = contentAux.at(i);
             int unicode = simbol.unicode();
-            content.append(fill(QString::number(unicode, 2)));
+            content.append(QString::number(unicode, 2));
         }
-        // QString content = contentAux.mid(0, contentAux.size()-garbageSize); // remove is better?
-        qDebug() << "number of bytes of original file is " << qba.size() - (treeSize+131);
 
-        qDebug() << "content is " << content;
+        qDebug() << contentAux << " > content is " << content;
+        tr->showTree();
 
         QByteArray decoded;
         Node * n = tr->root();
-        for (int i = 0; i < content.size(); ++i) {
+        for (int i = 0; i < content.size()-garbageSize-8; ++i) {
             if (n->isLeaf()) {
                 decoded.append(n->key());
                 n = tr->root();
+                --i;
             } else {
                 if (content.at(i) == '0') {
                     n = n->left();
@@ -92,9 +92,6 @@ bool Compress::uncompress() {
         }
         qDebug() << "decoded is " << decoded;
 
-        // for (int i = 0; i < toDecode.size(); ++i
-        //   traverse the tree; when bit is 0, go to the left; when bit is 1, go to the right
-        //   if node is a leaf, get its key and append to QString 'decoded'
         // write in file with the original name
 
         return true;
@@ -107,13 +104,15 @@ bool Compress::uncompress() {
 bool Compress::compress() {
     File * f = new File(m_path, m_fileName);
     QByteArray qba = f->read();
-    if (qba != 0) {
+    if (qba != NULL) {
         CountOccurrence * co = new CountOccurrence(qba);
         QList<Occurrence> occur = co->orderByOccurrence();
         CreateHuffmanTree * cht = new CreateHuffmanTree(occur);
         Tree * tree = cht->createTree();
         tree->createRep();
         cht->createHash(tree);
+
+        tree->showTree();
 
         QString data;
         for (int i = 0; i < qba.size(); ++i) {
@@ -147,7 +146,6 @@ bool Compress::compress() {
             encoded.append(QChar(h.toInt(&ok, 2)));
         }
         qDebug() << "encoded is " << encoded;
-        qDebug() << "encodedS is " << encoded.size();
 
         QString binaryGarbageSize = QString::number(garbageSize,2);
         QString binaryTreeSize = QString::number(tree->rep().size(),2);
@@ -158,7 +156,6 @@ bool Compress::compress() {
 
         QString toBit = binaryGarbageSize;
         toBit.append(binaryTreeSize);
-        qDebug() << toBit;
 
         int h1 = toBit.mid(0,8).toInt(&ok, 2);
         int h2 = toBit.mid(8,16).toInt(&ok, 2);
