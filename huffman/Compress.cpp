@@ -46,8 +46,8 @@ bool Compress::uncompress() {
         }
 
         bool ok;
-        int garbageSize = s1.toInt(&ok, 2);;
-        int treeSize = s2.toInt(&ok, 2);;
+        int garbageSize = s1.toInt(&ok, 2);
+        int treeSize = s2.toInt(&ok, 2);
 
         QString namefile;
         for (int i = 3; i < 130; ++i) { // why three?
@@ -62,7 +62,16 @@ bool Compress::uncompress() {
 
         Tree * tr = new Tree(treeRep);
 
-        // convert all data to QBitArray 'toDecode'
+        QString contentAux;
+        for (int i = treeSize+1; i < qba.size(); ++i) {
+            QChar simbol = qba.at(i);
+            int unicode = simbol.unicode();
+            contentAux.append(QString::number(unicode, 2));
+        }
+        QString content = contentAux.mid(0, contentAux.size()-garbageSize); // remove is better?
+
+        qDebug() << "content is " << content;
+
         // for (int i = 0; i < toDecode.size(); ++i
         //   traverse the tree; when bit is 0, go to the left; when bit is 1, go to the right
         //   if node is a leaf, get its key and append to QString 'decoded'
