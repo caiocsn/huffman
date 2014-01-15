@@ -62,8 +62,8 @@ QByteArray File::read() {
 }
 
 
-void File::write(QByteArray byteArray) {
-    QFile file(m_path + "compactado.huff");
+void File::write(QByteArray byteArray, QString filename) {
+    QFile file(filename);
     file.open(QIODevice::ReadWrite | QIODevice::Text);
     file.write(byteArray);
     file.close();

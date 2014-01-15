@@ -67,7 +67,7 @@ bool Compress::uncompress() {
         for (int i = 0; i < contentAux.size(); ++i) {
             QChar simbol = contentAux.at(i);
             int unicode = simbol.unicode();
-            qDebug() << simbol << " is " << unicode << " and is " << fill(QString::number(unicode, 2));
+            // qDebug() << simbol << " is " << unicode << " and is " << fill(QString::number(unicode, 2));
             content.append(fill(QString::number(unicode, 2)));
         }
 
@@ -88,10 +88,9 @@ bool Compress::uncompress() {
                 }
             }
         }
-        qDebug() << "second decoded is " << decoded << " and is " << content.mid(0,content.size());
-        tr->showTree();
 
-        // write in file with the original name
+        f->write(decoded, m_path + "descompactado_" + namefile);
+        qDebug() << namefile + " uncompressed";
 
         return true;
     } else {
@@ -141,7 +140,7 @@ bool Compress::compress() {
         for (int i = 0; i < data.size(); i+=8) {
             QString h = data.mid(i,8);
             encoded.append(QChar(h.toInt(&ok, 2)));
-            qDebug() << QChar(h.toInt(&ok,2)) << " is " << h.toInt(&ok,2) << " and is " << h;
+            // qDebug() << QChar(h.toInt(&ok,2)) << " is " << h.toInt(&ok,2) << " and is " << h;
             c.append(h);
         }
 
@@ -171,7 +170,7 @@ bool Compress::compress() {
         toWrite.append(tree->rep());
         toWrite.append(encoded);
 
-        f->write(toWrite);
+        f->write(toWrite, m_path + "compactado.huff");
 
         qDebug() << m_fileName << " compressed";
 

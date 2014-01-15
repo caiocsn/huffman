@@ -1,3 +1,4 @@
+# include <QChar>
 # include <QDebug>
 # include <Tree.h>
 # include <QString>
@@ -12,7 +13,7 @@ Tree::Tree(Node * root) {
 }
 
 void Tree::verifyChar(QString characters, Node * root) {
-    char character = characters.at(0).toLatin1();
+    QChar character = characters.at(0);
 
     if (character == '(') {
         Node * node = new Node();
@@ -55,7 +56,7 @@ void Tree::verifyChar(QString characters, Node * root) {
             node->setRoot(root);
             QString nodePath = root->path();
 
-            if (character == '00x0') {
+            if (character == '/') {
                 node->setKey(characters.at(1).toLatin1());
                 characters.remove(0,1);
             }
@@ -157,8 +158,8 @@ void Tree::preOrderRep(Node *node) {
         if (node->left() && !node->left()->isLeaf()) m_rep.append(")");
 
         if (node->key() != 0) {
-            if(node->key() == '(' || node->key() == ')') {
-                m_rep.append('00x0');
+            if(node->key() == '(' || node->key() == ')' || node->key() == '/') {
+                m_rep.append('/');
             }
             m_rep.append(node->key());
         }
