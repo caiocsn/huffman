@@ -67,13 +67,13 @@ bool Compress::uncompress() {
         for (int i = 0; i < contentAux.size(); ++i) {
             QChar simbol = contentAux.at(i);
             int unicode = simbol.unicode();
-            content.append(QString::number(unicode, 2));
+            qDebug() << simbol << " is " << unicode << " and is " << fill(QString::number(unicode, 2));
+            content.append(fill(QString::number(unicode, 2)));
         }
-        qDebug() << "cA " << contentAux << " is " << content;
 
         QByteArray decoded;
         Node * n = tr->root();
-        for (int i = 0; i < content.size(); ++i) {
+        for (int i = 0; i < content.size()-garbageSize; ++i) {
             if (n->isLeaf()) {
                 decoded.append(n->key());
                 n = tr->root();
@@ -88,7 +88,7 @@ bool Compress::uncompress() {
                 }
             }
         }
-        qDebug() << "decoded is " << decoded << " and is " << content.mid(0,content.size()-garbageSize-8);
+        qDebug() << "second decoded is " << decoded << " and is " << content.mid(0,content.size());
         tr->showTree();
 
         // write in file with the original name
@@ -141,9 +141,9 @@ bool Compress::compress() {
         for (int i = 0; i < data.size(); i+=8) {
             QString h = data.mid(i,8);
             encoded.append(QChar(h.toInt(&ok, 2)));
+            qDebug() << QChar(h.toInt(&ok,2)) << " is " << h.toInt(&ok,2) << " and is " << h;
             c.append(h);
         }
-        qDebug() << "encoded is " << encoded << " and is " << c;
 
         QString binaryGarbageSize = QString::number(garbageSize,2);
         QString binaryTreeSize = QString::number(tree->rep().size(),2);
@@ -156,7 +156,7 @@ bool Compress::compress() {
         toBit.append(binaryTreeSize);
 
         int h1 = toBit.mid(0,8).toInt(&ok, 2);
-        int h2 = toBit.mid(8,16).toInt(&ok, 2);
+        int h2 = toBit.mid(8,8).toInt(&ok, 2);
 
         QByteArray toWrite;
         toWrite.clear();
