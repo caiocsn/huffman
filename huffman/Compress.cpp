@@ -69,10 +69,11 @@ bool Compress::uncompress() {
             int unicode = simbol.unicode();
             content.append(QString::number(unicode, 2));
         }
+        qDebug() << "cA " << contentAux << " is " << content;
 
         QByteArray decoded;
         Node * n = tr->root();
-        for (int i = 0; i < content.size()-garbageSize-8; ++i) {
+        for (int i = 0; i < content.size(); ++i) {
             if (n->isLeaf()) {
                 decoded.append(n->key());
                 n = tr->root();
@@ -138,7 +139,7 @@ bool Compress::compress() {
         QByteArray encoded;
         QString c;
         for (int i = 0; i < data.size(); i+=8) {
-            QString h = data.mid(i,i+8);
+            QString h = data.mid(i,8);
             encoded.append(QChar(h.toInt(&ok, 2)));
             c.append(h);
         }
@@ -171,6 +172,7 @@ bool Compress::compress() {
         toWrite.append(encoded);
 
         f->write(toWrite);
+
         qDebug() << m_fileName << " compressed";
 
         return true;
