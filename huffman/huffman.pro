@@ -32,6 +32,6 @@ HEADERS += \
     CountOccurrence.h \
     Occurrence.h \
     File.h \
-    CreateHuffmanTree.h \
     Queue.h \
-    Compress.h
+    Compress.h \
+    HuffmanTree.h

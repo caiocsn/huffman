@@ -20,12 +20,11 @@ void CountOccurrence :: count () {
         }
 
         if (!exist) {
-            char ch = m_file.at(i);
+            unsigned char ch = m_file.at(i);
             Occurrence occur = Occurrence(ch);
             int ct = m_file.count(ch);
             occur.set_count(ct);
             m_occurrence.append(occur);
-            // qDebug() << "!exist ~ ch " << ch << " ~ ct " << ct;
         }
     }
 }
@@ -43,7 +42,6 @@ QList<Occurrence> CountOccurrence :: orderByOccurrence () {
         }
     }
     for (int i = 0; i < m_occurrence.size(); ++i) {
-        // qDebug() << m_occurrence[i].character() << " appear " << m_occurrence[i].count();
         ordered.append(m_occurrence[i]);
     }
 

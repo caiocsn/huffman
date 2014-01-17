@@ -3,6 +3,7 @@
 
 # include <QString>
 # include <Node.h>
+# include <QVariant>
 
 class Tree {
 public:

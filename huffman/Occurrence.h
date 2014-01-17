@@ -1,18 +1,17 @@
 #ifndef OCCURRENCE_H
-//#include <QChar>
 #define OCCURRENCE_H
 
 class Occurrence {
 public:
-    Occurrence (char qCharCode);
+    Occurrence (unsigned char qCharCode);
     Occurrence ();
     ~Occurrence ();
-    char character();
+    unsigned char character();
     int count();
-    void set_char(char ch);
+    void set_char(unsigned char ch);
     void set_count(int count);
 private:
-    char m_char;
+    unsigned char m_char;
     int m_count;
 };
 

@@ -51,7 +51,7 @@ void File:: split()
 
 QByteArray File::read() {
     QFile file(m_path + m_filename);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    file.open(QIODevice::ReadOnly);
 
     QTextStream in(&file);
     QString string = in.readAll();
@@ -64,7 +64,7 @@ QByteArray File::read() {
 
 void File::write(QByteArray byteArray, QString filename) {
     QFile file(filename);
-    file.open(QIODevice::ReadWrite | QIODevice::Text);
+    file.open(QIODevice::ReadWrite);
     file.write(byteArray);
     file.close();
 }

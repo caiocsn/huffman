@@ -14,8 +14,13 @@ Tree::Tree(Node * root) {
 
 void Tree::verifyChar(QString characters, Node * root) {
     QChar character = characters.at(0);
+    QVariant v = character;
+    bool ok;
 
-    if (character == '(') {
+    unsigned char character1 = v.toInt(&ok);
+
+
+    if (character1 == '(') {
         Node * node = new Node();
         node->setRoot(root);
         QString nodePath = root->path();
@@ -52,12 +57,17 @@ void Tree::verifyChar(QString characters, Node * root) {
 
         } else {
 
-            Node * node = new Node(character);
+            Node * node = new Node(character1);
             node->setRoot(root);
             QString nodePath = root->path();
 
-            if (character == '/') {
-                node->setKey(characters.at(1).toLatin1());
+            if (character1 == '/') {
+                QChar character2 = characters.at(1);
+                v = character2;
+                bool ok;
+                unsigned char character3 = v.toInt(&ok);
+
+                node->setKey(character3);
                 characters.remove(0,1);
             }
 
@@ -118,7 +128,6 @@ void Tree::setRoot (Node * newRoot) {
 }
 
 QString Tree::rep () {
-    // qDebug() << "Tree: " << m_rep;
     createRep();
     return m_rep;
 

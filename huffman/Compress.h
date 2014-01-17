@@ -7,13 +7,14 @@
 #include <QByteArray>
 #include <QFile>
 #include <CountOccurrence.h>
-#include <CreateHuffmanTree.h>
+#include <HuffmanTree.h>
 #include <QString>
 
 class Compress
 {
 public:
     Compress(QString pathFile);
+    Compress(QString pathFile, QString pathCompressedFile, QString uncompressDirectory);
     ~Compress();
     bool uncompress();
     bool compress();
@@ -22,6 +23,8 @@ private:
 private:
     QString m_path;
     QString m_fileName;
+    QString m_compressedFileName;
+    QString m_uncompressDirectory;
 
 };
 

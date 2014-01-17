@@ -15,6 +15,29 @@ Compress::Compress(QString pathFile) {
     }
 }
 
+Compress::Compress(QString pathFile, QString pathCompressedFile, QString uncompressDirectory) {
+    m_path = pathFile;
+    m_fileName = pathFile;
+    m_compressedFileName = pathCompressedFile;
+    m_uncompressDirectory = uncompressDirectory;
+
+    for (int i = pathFile.size() -1; i >= 0; --i) {
+        if (pathFile.at(i) == '/') {
+            m_path.remove(i, pathFile.size()-i);
+            m_path.append("/");
+            m_fileName.remove(0,i+1);
+            break;
+        }
+    }
+
+    if (m_uncompressDirectory != ""
+            && m_uncompressDirectory.at(m_uncompressDirectory.size()-1) != '/') {
+        m_uncompressDirectory.append('/');
+    } else if (m_uncompressDirectory == "") {
+        m_uncompressDirectory = m_path;
+    }
+}
+
 Compress::~Compress() {
     m_fileName = "";
     m_path = "";
@@ -67,13 +90,12 @@ bool Compress::uncompress() {
         for (int i = 0; i < contentAux.size(); ++i) {
             QChar simbol = contentAux.at(i);
             int unicode = simbol.unicode();
-            // qDebug() << simbol << " is " << unicode << " and is " << fill(QString::number(unicode, 2));
             content.append(fill(QString::number(unicode, 2)));
         }
 
         QByteArray decoded;
         Node * n = tr->root();
-        for (int i = 0; i < content.size()-garbageSize; ++i) {
+        for (int i = 0; i <= content.size()-garbageSize; ++i) {
             if (n->isLeaf()) {
                 decoded.append(n->key());
                 n = tr->root();
@@ -84,17 +106,17 @@ bool Compress::uncompress() {
                 } else if (content.at(i) == '1') {
                     n = n->right();
                 } else {
-                    qDebug() << "something is wrong here...";
+                    qDebug() << "Arquivo Corrompido!";
                 }
             }
         }
 
-        f->write(decoded, m_path + "descompactado_" + namefile);
-        qDebug() << namefile + " uncompressed";
+        f->write(decoded, m_uncompressDirectory + namefile);
+        qDebug() << namefile + " descompactado";
 
         return true;
     } else {
-        qDebug() << "404";
+        qDebug() << "Arquivo .huff não encontrado";
         return false;
     }
 }
@@ -105,7 +127,7 @@ bool Compress::compress() {
     if (qba != NULL) {
         CountOccurrence * co = new CountOccurrence(qba);
         QList<Occurrence> occur = co->orderByOccurrence();
-        CreateHuffmanTree * cht = new CreateHuffmanTree(occur);
+        HuffmanTree * cht = new HuffmanTree(occur);
         Tree * tree = cht->createTree();
         tree->createRep();
         cht->createHash(tree);
@@ -115,6 +137,7 @@ bool Compress::compress() {
             QString pathNode = cht->hash()->value(qba.at(i));
             data.append(pathNode);
         }
+
         int garbageSize = 8 - data.size()%8;
         if (garbageSize == 8) {
             garbageSize = 0;
@@ -140,7 +163,6 @@ bool Compress::compress() {
         for (int i = 0; i < data.size(); i+=8) {
             QString h = data.mid(i,8);
             encoded.append(QChar(h.toInt(&ok, 2)));
-            // qDebug() << QChar(h.toInt(&ok,2)) << " is " << h.toInt(&ok,2) << " and is " << h;
             c.append(h);
         }
 
@@ -170,13 +192,13 @@ bool Compress::compress() {
         toWrite.append(tree->rep());
         toWrite.append(encoded);
 
-        f->write(toWrite, m_path + "compactado.huff");
+        f->write(toWrite, m_path + m_compressedFileName);
 
-        qDebug() << m_fileName << " compressed";
+        qDebug() << m_fileName << " comprimido";
 
         return true;
     } else {
-        qDebug() << "file not found";
+        qDebug() << "Arquivo não encontrado";
 
         return false;
     }

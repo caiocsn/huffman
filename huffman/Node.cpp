@@ -13,7 +13,7 @@ Node::Node() {
 }
 
 
-Node::Node(char key, int frequency) {
+Node::Node(unsigned char key, int frequency) {
     m_left = 0;
     m_right = 0;
     m_root = 0;
@@ -25,7 +25,7 @@ Node::Node(char key, int frequency) {
 
 }
 
-Node::Node(char key) {
+Node::Node(unsigned char key) {
     this->m_left = 0;
     this->m_right = 0;
     this->m_root = 0;
@@ -35,11 +35,13 @@ Node::Node(char key) {
 }
 
 Node::Node(QChar key) {
+    QVariant v = key;
+    bool ok;
     this->m_left = 0;
     this->m_right = 0;
     this->m_root = 0;
     this->m_height = 0;
-    this->m_key = key.toLatin1();
+    this->m_key = v.toInt(&ok);
     m_path = "";
 }
 
@@ -56,13 +58,9 @@ Node::~Node() {
     m_path = "";
 }
 
-/*void Node::setLeft(Node *left) {
-    m_left = left;
-}
-*/
 
 void Node::setRoot(Node *root) {
-     this->m_root = root;
+    this->m_root = root;
 }
 
 Node * Node::root() {
@@ -70,27 +68,23 @@ Node * Node::root() {
 }
 
 void Node::setLeft(Node *left) {
-      this->m_left = left;
-     int h = m_height;
-     h++;
-     m_left->setHeight(h);
-  }
+    this->m_left = left;
+    int h = m_height;
+    h++;
+    m_left->setHeight(h);
+}
 
 Node * Node::left() {
     return m_left;
 }
 
-/*void Node::setRight(Node *right) {
-    m_right = right;
-}
-*/
 
 void Node::setRight(Node *right) {
-     this->m_right = right;
+    this->m_right = right;
     int h = m_height;
     h++;
     m_right->setHeight(h);
- }
+}
 
 Node * Node::right() {
     return m_right;
@@ -108,7 +102,7 @@ void Node::setKey(char key) {
     m_key = key;
 }
 
-char Node::key() {
+unsigned char Node::key() {
     return m_key;
 }
 
@@ -141,8 +135,6 @@ void Node::setHeight(int height) {
 int Node::height() {
     return m_height;
 }
-
-//asdfghgfdsadfggfdsasdfgh
 
 void Node::setPath(QString path) {
     m_path = path;

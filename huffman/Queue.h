@@ -5,8 +5,8 @@
 
 class Queue {
 private:
-  void operator = (const Queue&) {}      // Protect assignment
-  Queue(const Queue&) {}           // Protect copy constructor
+    void operator = (const Queue&) {}
+    Queue(const Queue&) {}
 public:
     Queue ();
     void clear();
