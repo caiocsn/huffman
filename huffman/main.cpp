@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
                 compressedFileName = argv[4];
                 Compress c = Compress(fileName, compressedFileName, directory);
                 c.compress();
+                c.~Compress();
             } else {
                 manHuffman();
             }
@@ -48,6 +49,7 @@ int main(int argc, char *argv[]) {
                 directory = argv[3];
                 Compress c = Compress(fileName, compressedFileName, directory);
                 c.uncompress();
+                c.~Compress();
             } else {
                 manHuffman();
             }
@@ -57,6 +59,7 @@ int main(int argc, char *argv[]) {
                 compressedFileName.append("out.huff");
                 Compress c = Compress(fileName, compressedFileName, directory);
                 c.compress();
+                c.~Compress();
             } else {
                 manHuffman();
             }
@@ -64,6 +67,7 @@ int main(int argc, char *argv[]) {
             fileName = argv[1];
             Compress c = Compress(fileName, compressedFileName, directory);
             c.uncompress();
+            c.~Compress();
         } else {
             manHuffman();
         }
